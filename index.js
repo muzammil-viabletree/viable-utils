@@ -1,53 +1,32 @@
 const randomstring = require('randomstring');
 const bcrypt = require('bcrypt-nodejs');
 
+const util = require('./util');
+const thumbnail =  require('./thumbnail')
+const validation = require('./validation')
+
+
 module.exports = {
 
-    /**
-     * 
-     * @returns 4 digit random number
-     */
-    generateOtp: function () {
-        return randomstring.generate({
-            length: 4,
-            charset: 'numeric',
-        });
-    },
+   generateOTP : util.generateOtp,
+   generateEncryptedPassword : util.generateEncryptedPassword,
+   generateRandomString : util.generateRandomString,
+   parseLocaleMessage :  util.parseLocaleMessage,
+   mysql_real_escape_string : util.mysql_real_escape_string,
+   validateCoodinates : util.validateCoodinates,
+   validateURL : util.validateURL,
 
-    /**
-     * 
-     * @returns random string
-     */
-    generateRandomString: function () {
-        return randomstring.generate();
-    },
+   generateVideoThumbnail: thumbnail.generateVideoThumbnail,
+   updateVideoThumbnails : thumbnail.updateVideoThumbnails,
 
+   validateEmail: validation.validateEmail,
+   validateEmailPromise : validation.validateEmailPromise,
+   validatePhone : validation.validatePhone,
 
-    /**
-     * 
-     * @param {alphanumeric} password 
-     * @return {String} encrypted password
-     */
-    generateEncryptedPassword: function(password) {
-        return new Promise(((resolve, reject) => {
-          bcrypt.genSalt(10, (err, salt) => {
-            if(err) {
-              sails.log.error('error generating salt', err);
-              return reject(err);
-            }
-            bcrypt.hash(password, salt, null, (err, hash) => {
-              if (err) {
-                sails.log.error('error encrypting password', err);
-                return reject(err);
-              }
-    
-    
-              return resolve(hash);
-            });
-          });
-    
-        }));
-      },
+   validatePhonePromise : validation.validatePhonePromise,
+   singleName : validation.singleName,
+   continueIfValidPostcodeFormat : validation.continueIfValidPostcodeFormat,
 
+   postcodeFormat : validation.postcodeFormat
     
 };
