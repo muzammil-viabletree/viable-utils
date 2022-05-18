@@ -1,7 +1,17 @@
 var Emailaddresses = require('machinepack-emailaddresses');
 
-module.exports = {
+
+class Validation{
+
   /**
+     * 
+ */
+  constructor(){
+
+  }
+    
+
+    /**
    * Check if cordiantes are valid
    * @param {number} lat 
    * @param {number} lon 
@@ -17,8 +27,18 @@ module.exports = {
     } else {
       return false;
     }
-  },
-  validateURL(url) {
+  }
+
+  /**
+   * @example
+   * 
+   * const viableUtils = require('viableutils')
+   * const validateUrl = viableUtils.validateURL("www.abc.com");
+   * 
+   * @param {string} url 
+   * @returns {boolean} validation of url 
+   */
+   validateURL(url) {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
       '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
       '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
@@ -26,8 +46,15 @@ module.exports = {
       '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
       '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     return !!pattern.test(url);
-  },
-  validateEmail(email, callback) {
+  }
+
+  /**
+   * 
+   * @param {String} email 
+   * @param {function} callback 
+   * @returns {Boolean}
+   */
+   validateEmail(email, callback) {
     // Determine whether or not the provided string is an email address.
     Emailaddresses.validate({
       string: email,
@@ -47,9 +74,14 @@ module.exports = {
         callback(undefined, true);
       },
     });
-  },
+  }
 
-  validateEmailPromise(email) {
+  /**
+   * 
+   * @param {string} email 
+   * @returns {string} resolve emai address
+   */
+   validateEmailPromise(email) {
     return new Promise((resolve) => {
       Emailaddresses.validate({
         string: email,
@@ -68,74 +100,48 @@ module.exports = {
         },
       });
     });
-  },
+  }
 
-  validatePhone(phone, callback) {
-    if (typeof phone === 'undefined') {
-      return callback('phone must be defined');
-    }
-    var longForm;
-    if (!/(07\d)|(447)/.test(phone.substr(0, 3))) {
-      return callback('phone must start 07 or 447');
-    }
-    if (phone.substr(0, 2) === '07') {
-      if (phone.length !== 11) {
-        return callback('phone must be valid UK number');
-      }
-      longForm = '44' + phone.substr(-10, 10);
-    }
-    if (phone.substr(0, 2) === '44') {
-      if (phone.length !== 12) {
-        return callback('phone must be valid UK number');
-      }
-      longForm = phone;
-    }
-    if (!/^\d{11,12}$/.test(phone)) {
-      return callback('phone must be all numerals');
-    }
-    return callback(undefined, longForm);
-  },
 
-  validatePhonePromise(phone) {
-    return new Promise((resolve) => {
-      if (!phone) return false;
-      phone = phone.replace(/ /g, '');
-      let mobileNumber = phone.replace('+', '');
-      // Number begins with 44
-      if (mobileNumber.charAt(0) == '4' && mobileNumber.charAt(1) == '4') {
-        mobileNumber = '0' + mobileNumber.slice(2);
-      }
-      if (
-        /^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$/.test(
-          mobileNumber
-        )) {
-        return resolve(true);
-      }
-      return resolve(false);
-
+    /**
+   * 
+   * @param {Number} phone 
+   * @param {function} callback 
+   * @returns {boolean} 
+   */
+     validatePhone(phone, callback) {
       if (typeof phone === 'undefined') {
-        return resolve(false);
+        return callback('phone must be defined');
       }
+      var longForm;
       if (!/(07\d)|(447)/.test(phone.substr(0, 3))) {
-        return resolve(false);
+        return callback('phone must start 07 or 447');
       }
       if (phone.substr(0, 2) === '07') {
         if (phone.length !== 11) {
-          return resolve(false);
+          return callback('phone must be valid UK number');
         }
+        longForm = '44' + phone.substr(-10, 10);
       }
       if (phone.substr(0, 2) === '44') {
         if (phone.length !== 12) {
-          return resolve(false);
+          return callback('phone must be valid UK number');
         }
+        longForm = phone;
       }
       if (!/^\d{11,12}$/.test(phone)) {
-        return resolve(false);
+        return callback('phone must be all numerals');
       }
-      return resolve(true);
-    });
-  },
+      return callback(undefined, longForm);
+    }
 
+
+    /**
+   * 
+   * @param {String} name 
+   * @param {function} callback 
+   * @returns {callback}
+   */
   singleName(name, callback) {
     if (typeof name === 'undefined') {
       return callback('name must be defined');
@@ -145,9 +151,15 @@ module.exports = {
     }
     // var capitalized = name.charAt(0).toUpperCase() + name.slice(1);
     // callback(undefined, capitalized);
-  },
+  }
 
-  continueIfValidPostcodeFormat: (postcode) => {
+
+  /**
+   * 
+   * @param {number} postcode 
+   * @returns {Boolean} validation of post code
+   */
+   continueIfValidPostcodeFormat(postcode) {
     return new Promise((resolve, reject) => {
       module.exports.postcodeFormat(postcode)
         .then((isValid) => {
@@ -155,9 +167,14 @@ module.exports = {
           return reject('Postcode format not valid');
         });
     });
-  },
+  }
 
-  /** callback - (err, isValid) */
+
+  /**
+   * 
+   * @param {Number} postcode 
+   * @returns {Boolean}
+   */
   postcodeFormat(postcode) {
     return new Promise((resolve, reject) => {
       if (!postcode) return resolve(false);
@@ -169,4 +186,7 @@ module.exports = {
       return resolve(true);
     });
   }
-};
+
+}
+
+module.exports = Validation;

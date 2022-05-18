@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>thumbnail.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/muzammil-viabletree/viable-utils" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="Thumbnail.html">Thumbnail</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Thumbnail.html#generateVideoThumbnail">generateVideoThumbnail</a></li><li data-type='method' style='display: none;'><a href="Thumbnail.html#updateVideoThumbnails">updateVideoThumbnails</a></li><li data-type='method' style='display: none;'><a href="Thumbnail.html#uploadToAWS">uploadToAWS</a></li></ul></li><li><a href="Util.html">Util</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Util.html#generateEncryptedPassword">generateEncryptedPassword</a></li><li data-type='method' style='display: none;'><a href="Util.html#generateOtp">generateOtp</a></li><li data-type='method' style='display: none;'><a href="Util.html#generateRandomString">generateRandomString</a></li><li data-type='method' style='display: none;'><a href="Util.html#mysql_real_escape_string">mysql_real_escape_string</a></li><li data-type='method' style='display: none;'><a href="Util.html#parseLocaleMessage">parseLocaleMessage</a></li><li data-type='method' style='display: none;'><a href="Util.html#validateCoodinates">validateCoodinates</a></li><li data-type='method' style='display: none;'><a href="Util.html#validateURL">validateURL</a></li></ul></li><li><a href="Validation.html">Validation</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Validation.html#continueIfValidPostcodeFormat">continueIfValidPostcodeFormat</a></li><li data-type='method' style='display: none;'><a href="Validation.html#postcodeFormat">postcodeFormat</a></li><li data-type='method' style='display: none;'><a href="Validation.html#singleName">singleName</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateCoodinates">validateCoodinates</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateEmail">validateEmail</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateEmailPromise">validateEmailPromise</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validatePhone">validatePhone</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateURL">validateURL</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">thumbnail.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const fs = require("fs"); // Or `import fs from "fs";` with ESM
+const path = require("path");
+const AWS = require("aws-sdk");
+
+if (typeof atob === "undefined") {
+	global.atob = function (b64Encoded) {
+		return new Buffer(b64Encoded, "base64").toString("binary");
+	};
+}
+
+/**
+ * @example
+ * cosnt thumbnail = new Thumbnail();
+ */
+class Thumbnail{
+	/**
+	 * 
+	 */
+	constructor(){
+
+	}
+
+	/**
+ * 
+ * @param {*} base64 
+ * @param {*} filename 
+ * @param {*} media_id 
+ * @param {*} model 
+ */
+	uploadToAWS(base64, filename, media_id,model) {
+		var s3Bucket = new AWS.S3({ params: { Bucket: sails.config.AWS.BUCKET } });
+
+		buf = Buffer.from(base64.replace(/^data:image\/\w+;base64,/, ""), "base64");
+		var params = {
+			Key: filename,
+			Body: buf,
+			ContentEncoding: "base64",
+			ContentType: "image/png",
+			ACL: "public-read",
+		};
+
+		s3Bucket.upload(params, function (err, data) {
+			if (err) {
+				sails.log.error("Error uploading data: ", params);
+			}
+			sails.log.debug("Media_id:", media_id);
+			sails.models.postmedia.update({ id: media_id })
+				.set({ media_thumbnail: data.Location })
+				.then((result) => {
+					sails.log('RESULT',{ result });
+					data.result = result;
+				});
+			sails.log(`File uploaded successfully. File path: ${data.Location}`);
+			// imagePath = data.Location;
+			return data.Location;
+		});
+	}
+
+	/**
+	 * 
+	 * @param {integer} post_id 
+	 * @param {*} uri 
+	 * @param {*} model 
+	 */
+	generateVideoThumbnail(post_id, uri,model="postMedia") {
+		sails.log("helper generate thumbnail started",uri);
+		try {
+			let filename = "tn-" + path.parse(path.basename(uri)).name;
+
+			sails.log.debug("filename:", filename)
+
+			const { dirname } = require("path");
+			let appDir = dirname(require.main.filename);
+			my_path = `${appDir}/assets/images/thumbnails`;
+
+			sails.log({ pathExist: fs.existsSync(my_path), appDir });
+			const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
+			const ffmpeg = require("fluent-ffmpeg");
+			ffmpeg.setFfmpegPath(ffmpegPath);
+
+			ffmpeg(uri)
+				.on("end", function (data) {
+					console.log(`Screenshots taken. data ${data}`);
+
+					var bitmap = fs.readFileSync(my_path + "/" + filename + ".png");
+					// convert binary data to base64 encoded string
+					base64 = new Buffer(bitmap).toString("base64");
+					tn_url = uploadToAWS(base64, filename + ".png", post_id,model);
+					//base64_encode(path+"/"+filename+".png")
+					return true
+				})
+				.on("error", function (err) {
+					console.error({ errIntakingScreenshots: err });
+				})
+				.screenshots({
+					// Will take screenshots at 20%, 40%, 60% and 80% of the video
+					count: 1,
+					filename: filename + ".png",
+					folder: my_path,
+				});
+		} catch (err) {
+			sails.log.error(`Error in helper generate-thumbnail. ${err}`);
+		}
+	
+	}
+
+
+	/**
+	 * 
+	 * @param {media} post_medias 
+	 */
+	updateVideoThumbnails(post_medias) {
+		try {
+			for (media of post_medias) {
+				if (media.type.includes('video')) {
+				  try {
+				 module.exports.generateVideoThumbnail(media.id, media.uri,"PostMedia")
+				  } catch (err) {
+					sails.log.error(`Error in util/index.js,function thumbnail. ${err}`)
+				  }
+				}
+			  }
+		} catch (err) {
+			sails.log.error(`Error in util/index.js,function thumbnail. ${err}`)
+		}
+	}
+
+}
+
+
+
+
+
+module.exports = Thumbnail;
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Mon May 16 2022 23:20:25 GMT+0500 (Pakistan Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

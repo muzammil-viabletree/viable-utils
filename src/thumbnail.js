@@ -7,36 +7,62 @@ if (typeof atob === "undefined") {
 		return new Buffer(b64Encoded, "base64").toString("binary");
 	};
 }
-function uploadToAWS(base64, filename, media_id,model) {
-	var s3Bucket = new AWS.S3({ params: { Bucket: sails.config.AWS.BUCKET } });
 
-	buf = Buffer.from(base64.replace(/^data:image\/\w+;base64,/, ""), "base64");
-	var params = {
-		Key: filename,
-		Body: buf,
-		ContentEncoding: "base64",
-		ContentType: "image/png",
-		ACL: "public-read",
-	};
+/**
+ * @example
+ * cosnt thumbnail = new Thumbnail();
+ */
+class Thumbnail{
+	/**
+	 * 
+	 */
+	constructor(){
 
-	s3Bucket.upload(params, function (err, data) {
-		if (err) {
-			sails.log.error("Error uploading data: ", params);
-		}
-		sails.log.debug("Media_id:", media_id);
-		sails.models.postmedia.update({ id: media_id })
-			.set({ media_thumbnail: data.Location })
-			.then((result) => {
-				sails.log('RESULT',{ result });
-				data.result = result;
-			});
-		sails.log(`File uploaded successfully. File path: ${data.Location}`);
-		// imagePath = data.Location;
-		return data.Location;
-	});
-}
-module.exports = {
-	generateVideoThumbnail: function (post_id, uri,model="postMedia") {
+	}
+
+	/**
+ * 
+ * @param {*} base64 
+ * @param {*} filename 
+ * @param {*} media_id 
+ * @param {*} model 
+ */
+	uploadToAWS(base64, filename, media_id,model) {
+		var s3Bucket = new AWS.S3({ params: { Bucket: sails.config.AWS.BUCKET } });
+
+		buf = Buffer.from(base64.replace(/^data:image\/\w+;base64,/, ""), "base64");
+		var params = {
+			Key: filename,
+			Body: buf,
+			ContentEncoding: "base64",
+			ContentType: "image/png",
+			ACL: "public-read",
+		};
+
+		s3Bucket.upload(params, function (err, data) {
+			if (err) {
+				sails.log.error("Error uploading data: ", params);
+			}
+			sails.log.debug("Media_id:", media_id);
+			sails.models.postmedia.update({ id: media_id })
+				.set({ media_thumbnail: data.Location })
+				.then((result) => {
+					sails.log('RESULT',{ result });
+					data.result = result;
+				});
+			sails.log(`File uploaded successfully. File path: ${data.Location}`);
+			// imagePath = data.Location;
+			return data.Location;
+		});
+	}
+
+	/**
+	 * 
+	 * @param {integer} post_id 
+	 * @param {*} uri 
+	 * @param {*} model 
+	 */
+	generateVideoThumbnail(post_id, uri,model="postMedia") {
 		sails.log("helper generate thumbnail started",uri);
 		try {
 			let filename = "tn-" + path.parse(path.basename(uri)).name;
@@ -76,8 +102,14 @@ module.exports = {
 			sails.log.error(`Error in helper generate-thumbnail. ${err}`);
 		}
 	
-	},
-	updateVideoThumbnails: function (post_medias) {
+	}
+
+
+	/**
+	 * 
+	 * @param {media} post_medias 
+	 */
+	updateVideoThumbnails(post_medias) {
 		try {
 			for (media of post_medias) {
 				if (media.type.includes('video')) {
@@ -92,7 +124,12 @@ module.exports = {
 			sails.log.error(`Error in util/index.js,function thumbnail. ${err}`)
 		}
 	}
-};
+
+}
 
 
+
+
+
+module.exports = Thumbnail;
 
