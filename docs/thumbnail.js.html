@@ -29,7 +29,7 @@
     
     <input type="text" id="nav-search" placeholder="Search" />
     
-    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/muzammil-viabletree/viable-utils" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="Thumbnail.html">Thumbnail</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Thumbnail.html#generateVideoThumbnail">generateVideoThumbnail</a></li><li data-type='method' style='display: none;'><a href="Thumbnail.html#updateVideoThumbnails">updateVideoThumbnails</a></li><li data-type='method' style='display: none;'><a href="Thumbnail.html#uploadToAWS">uploadToAWS</a></li></ul></li><li><a href="Util.html">Util</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Util.html#generateEncryptedPassword">generateEncryptedPassword</a></li><li data-type='method' style='display: none;'><a href="Util.html#generateOtp">generateOtp</a></li><li data-type='method' style='display: none;'><a href="Util.html#generateRandomString">generateRandomString</a></li><li data-type='method' style='display: none;'><a href="Util.html#mysql_real_escape_string">mysql_real_escape_string</a></li><li data-type='method' style='display: none;'><a href="Util.html#parseLocaleMessage">parseLocaleMessage</a></li><li data-type='method' style='display: none;'><a href="Util.html#validateCoodinates">validateCoodinates</a></li><li data-type='method' style='display: none;'><a href="Util.html#validateURL">validateURL</a></li></ul></li><li><a href="Validation.html">Validation</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Validation.html#continueIfValidPostcodeFormat">continueIfValidPostcodeFormat</a></li><li data-type='method' style='display: none;'><a href="Validation.html#postcodeFormat">postcodeFormat</a></li><li data-type='method' style='display: none;'><a href="Validation.html#singleName">singleName</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateCoodinates">validateCoodinates</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateEmail">validateEmail</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateEmailPromise">validateEmailPromise</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validatePhone">validatePhone</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateURL">validateURL</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/muzammil-viabletree/viable-utils" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="Thumbnail.html">Thumbnail</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Thumbnail.html#generateVideoThumbnail">generateVideoThumbnail</a></li><li data-type='method' style='display: none;'><a href="Thumbnail.html#updateVideoThumbnails">updateVideoThumbnails</a></li></ul></li><li><a href="Util.html">Util</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Util.html#generateEncryptedPassword">generateEncryptedPassword</a></li><li data-type='method' style='display: none;'><a href="Util.html#generateOtp">generateOtp</a></li><li data-type='method' style='display: none;'><a href="Util.html#generateRandomString">generateRandomString</a></li><li data-type='method' style='display: none;'><a href="Util.html#mysql_real_escape_string">mysql_real_escape_string</a></li><li data-type='method' style='display: none;'><a href="Util.html#parseLocaleMessage">parseLocaleMessage</a></li><li data-type='method' style='display: none;'><a href="Util.html#validateCoodinates">validateCoodinates</a></li><li data-type='method' style='display: none;'><a href="Util.html#validateURL">validateURL</a></li></ul></li><li><a href="Validation.html">Validation</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Validation.html#continueIfValidPostcodeFormat">continueIfValidPostcodeFormat</a></li><li data-type='method' style='display: none;'><a href="Validation.html#postcodeFormat">postcodeFormat</a></li><li data-type='method' style='display: none;'><a href="Validation.html#singleName">singleName</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateCoodinates">validateCoodinates</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateEmail">validateEmail</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateEmailPromise">validateEmailPromise</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validatePhone">validatePhone</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateURL">validateURL</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -46,7 +46,6 @@
         <article>
             <pre class="prettyprint source linenums"><code>const fs = require("fs"); // Or `import fs from "fs";` with ESM
 const path = require("path");
-const AWS = require("aws-sdk");
 
 if (typeof atob === "undefined") {
 	global.atob = function (b64Encoded) {
@@ -64,42 +63,6 @@ class Thumbnail{
 	 */
 	constructor(){
 
-	}
-
-	/**
- * 
- * @param {*} base64 
- * @param {*} filename 
- * @param {*} media_id 
- * @param {*} model 
- */
-	uploadToAWS(base64, filename, media_id,model) {
-		var s3Bucket = new AWS.S3({ params: { Bucket: sails.config.AWS.BUCKET } });
-
-		buf = Buffer.from(base64.replace(/^data:image\/\w+;base64,/, ""), "base64");
-		var params = {
-			Key: filename,
-			Body: buf,
-			ContentEncoding: "base64",
-			ContentType: "image/png",
-			ACL: "public-read",
-		};
-
-		s3Bucket.upload(params, function (err, data) {
-			if (err) {
-				sails.log.error("Error uploading data: ", params);
-			}
-			sails.log.debug("Media_id:", media_id);
-			sails.models.postmedia.update({ id: media_id })
-				.set({ media_thumbnail: data.Location })
-				.then((result) => {
-					sails.log('RESULT',{ result });
-					data.result = result;
-				});
-			sails.log(`File uploaded successfully. File path: ${data.Location}`);
-			// imagePath = data.Location;
-			return data.Location;
-		});
 	}
 
 	/**
@@ -193,7 +156,7 @@ module.exports = Thumbnail;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Mon May 16 2022 23:20:25 GMT+0500 (Pakistan Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Wed May 18 2022 17:05:58 GMT+0500 (Pakistan Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
