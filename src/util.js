@@ -11,6 +11,10 @@ class Util{
   }
 
   /**
+   * @example
+   * 
+   * const viableUtils = require('viableutils')
+   * const getOtp = viableUtils.generateOtp();
    * 
    * @returns {Number} 4 digit random number
    */
@@ -23,6 +27,10 @@ class Util{
 
 
   /**
+   * @example
+   * 
+   * const viableUtils = require('viableutils')
+   * const getRandomString = viableUtils.generateRandomString();
    * 
    * @returns random string
    */
@@ -32,7 +40,12 @@ class Util{
 
   /**
    * 
-   * @param {alphanumeric} password 
+   * @example
+   * 
+   * const viableUtils = require('viableutils')
+   * const getEncryptedPassword = await viableUtils.generateEncryptedPassword("Adobe110#"); 
+   * 
+   * @param {String} password 
    * @return {String} encrypted password
    */
   generateEncryptedPassword(password) {
@@ -139,6 +152,20 @@ class Util{
       '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
       '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     return !!pattern.test(url);
+  }
+
+  /**
+   * 
+   * @param {Number} param1 
+   * @param {Number} param2 
+   * @returns {Number} sum of 2 2 numbers
+   * @description returns a sum of 2 number
+   * @example asdfafd
+   */
+  testFunc(param1 , param2){
+
+    return param1+param2;
+
   }
 
 }
