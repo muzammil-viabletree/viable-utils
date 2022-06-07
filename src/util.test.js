@@ -30,5 +30,10 @@ describe('Testing the Utils Functions', function() {
 
         done();
     })
+    it('5. Validate testfunc', function(done){
+        expect(c1.testFunc(1, 2)).to.be.an("number")
+
+        done();
+    })
 
     });

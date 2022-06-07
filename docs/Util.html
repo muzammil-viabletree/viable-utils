@@ -29,7 +29,7 @@
     
     <input type="text" id="nav-search" placeholder="Search" />
     
-    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/muzammil-viabletree/viable-utils" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="Thumbnail.html">Thumbnail</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Thumbnail.html#generateVideoThumbnail">generateVideoThumbnail</a></li><li data-type='method' style='display: none;'><a href="Thumbnail.html#updateVideoThumbnails">updateVideoThumbnails</a></li></ul></li><li><a href="Util.html">Util</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Util.html#generateEncryptedPassword">generateEncryptedPassword</a></li><li data-type='method' style='display: none;'><a href="Util.html#generateOtp">generateOtp</a></li><li data-type='method' style='display: none;'><a href="Util.html#generateRandomString">generateRandomString</a></li><li data-type='method' style='display: none;'><a href="Util.html#mysql_real_escape_string">mysql_real_escape_string</a></li><li data-type='method' style='display: none;'><a href="Util.html#parseLocaleMessage">parseLocaleMessage</a></li><li data-type='method' style='display: none;'><a href="Util.html#validateCoodinates">validateCoodinates</a></li><li data-type='method' style='display: none;'><a href="Util.html#validateURL">validateURL</a></li></ul></li><li><a href="Validation.html">Validation</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Validation.html#continueIfValidPostcodeFormat">continueIfValidPostcodeFormat</a></li><li data-type='method' style='display: none;'><a href="Validation.html#postcodeFormat">postcodeFormat</a></li><li data-type='method' style='display: none;'><a href="Validation.html#singleName">singleName</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateCoodinates">validateCoodinates</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateEmail">validateEmail</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateEmailPromise">validateEmailPromise</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validatePhone">validatePhone</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateURL">validateURL</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/muzammil-viabletree/viable-utils" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="Thumbnail.html">Thumbnail</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Thumbnail.html#generateVideoThumbnail">generateVideoThumbnail</a></li><li data-type='method' style='display: none;'><a href="Thumbnail.html#updateVideoThumbnails">updateVideoThumbnails</a></li></ul></li><li><a href="Util.html">Util</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Util.html#generateEncryptedPassword">generateEncryptedPassword</a></li><li data-type='method' style='display: none;'><a href="Util.html#generateOtp">generateOtp</a></li><li data-type='method' style='display: none;'><a href="Util.html#generateRandomString">generateRandomString</a></li><li data-type='method' style='display: none;'><a href="Util.html#mysql_real_escape_string">mysql_real_escape_string</a></li><li data-type='method' style='display: none;'><a href="Util.html#parseLocaleMessage">parseLocaleMessage</a></li><li data-type='method' style='display: none;'><a href="Util.html#testFunc">testFunc</a></li><li data-type='method' style='display: none;'><a href="Util.html#validateCoodinates">validateCoodinates</a></li><li data-type='method' style='display: none;'><a href="Util.html#validateURL">validateURL</a></li></ul></li><li><a href="Validation.html">Validation</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Validation.html#continueIfValidPostcodeFormat">continueIfValidPostcodeFormat</a></li><li data-type='method' style='display: none;'><a href="Validation.html#postcodeFormat">postcodeFormat</a></li><li data-type='method' style='display: none;'><a href="Validation.html#singleName">singleName</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateCoodinates">validateCoodinates</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateEmail">validateEmail</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateEmailPromise">validateEmailPromise</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validatePhone">validatePhone</a></li><li data-type='method' style='display: none;'><a href="Validation.html#validateURL">validateURL</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -177,7 +177,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util.js.html">util.js</a>, <a href="util.js.html#line38">line 38</a>
+        <a href="util.js.html">util.js</a>, <a href="util.js.html#line51">line 51</a>
     </li></ul></dd>
     
 
@@ -224,6 +224,12 @@
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const viableUtils = require('viableutils')
+const getEncryptedPassword = await viableUtils.generateEncryptedPassword("Adobe110#"); </code></pre>
+
+
 
 
     <h5>Parameters:</h5>
@@ -257,7 +263,7 @@
             <td class="type">
             
                 
-<span class="param-type">alphanumeric</span>
+<span class="param-type">String</span>
 
 
             
@@ -331,7 +337,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util.js.html">util.js</a>, <a href="util.js.html#line17">line 17</a>
+        <a href="util.js.html">util.js</a>, <a href="util.js.html#line21">line 21</a>
     </li></ul></dd>
     
 
@@ -376,6 +382,12 @@
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const viableUtils = require('viableutils')
+const getOtp = viableUtils.generateOtp();</code></pre>
 
 
 
@@ -436,7 +448,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util.js.html">util.js</a>, <a href="util.js.html#line29">line 29</a>
+        <a href="util.js.html">util.js</a>, <a href="util.js.html#line37">line 37</a>
     </li></ul></dd>
     
 
@@ -481,6 +493,12 @@
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const viableUtils = require('viableutils')
+const getRandomString = viableUtils.generateRandomString();</code></pre>
 
 
 
@@ -529,7 +547,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util.js.html">util.js</a>, <a href="util.js.html#line82">line 82</a>
+        <a href="util.js.html">util.js</a>, <a href="util.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -683,7 +701,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util.js.html">util.js</a>, <a href="util.js.html#line65">line 65</a>
+        <a href="util.js.html">util.js</a>, <a href="util.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -848,6 +866,187 @@
 
     
 
+    <h4 class="name" id="testFunc"><span class="type-signature"></span>testFunc<span class="signature">(param1, param2)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="util.js.html">util.js</a>, <a href="util.js.html#line164">line 164</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>returns a sum of 2 number</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>param1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>param2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>sum of 2 2 numbers</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id="validateCoodinates"><span class="type-signature"></span>validateCoodinates<span class="signature">(lat, lon)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
@@ -860,7 +1059,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util.js.html">util.js</a>, <a href="util.js.html#line117">line 117</a>
+        <a href="util.js.html">util.js</a>, <a href="util.js.html#line130">line 130</a>
     </li></ul></dd>
     
 
@@ -1037,7 +1236,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util.js.html">util.js</a>, <a href="util.js.html#line134">line 134</a>
+        <a href="util.js.html">util.js</a>, <a href="util.js.html#line147">line 147</a>
     </li></ul></dd>
     
 
@@ -1194,7 +1393,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Wed May 18 2022 17:05:58 GMT+0500 (Pakistan Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Tue Jun 07 2022 17:05:44 GMT+0500 (Pakistan Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

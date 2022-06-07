@@ -50,6 +50,11 @@ class Validation{
 
   /**
    * 
+   *  @example
+   * 
+   * const viableUtils = require('viableutils')
+   * const validateEmail = viableUtils.validateEmail();
+   * 
    * @param {String} email 
    * @param {function} callback 
    * @returns {Boolean}
