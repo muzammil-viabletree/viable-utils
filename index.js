@@ -26,6 +26,7 @@ module.exports = {
   // validatePhonePromise : validation.validatePhonePromise,
    singleName : validation.singleName,
    continueIfValidPostcodeFormat : validation.continueIfValidPostcodeFormat,
-   postcodeFormat : validation.postcodeFormat
+   postcodeFormat : validation.postcodeFormat,
+   testFunc : util.testFunc
 
 };
